@@ -1,98 +1,93 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import styles from '../../components/SignIn.styles';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+const SignIn = () => {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [focusedInput, setFocusedInput] = useState(null);
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+	return (
+		<View style={styles.container}>
+			{/* LOGO  */}
+			<View style={styles.logoContainer}>
+				<MaterialCommunityIcons name="plus-circle-outline" size={60} color="#85C900" />
+			</View>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+			{/* Heading and Subheading  */}
+			<Text style={styles.heading}>Sign In</Text>
+			<Text style={styles.subheading}>Let's experience the joy of telecare AI.</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+			{/* Email Input */}
+			<View style={styles.inputGroup}>
+				<Text style={styles.label}>Email Address</Text>
+				<View style={[styles.inputWrapper, focusedInput == 'email' && styles.inputFocused]}>
+					<MaterialCommunityIcons name="email-outline" size={20} color="#666" />
+					<TextInput
+						style={styles.input}
+						placeholder="Enter your email"
+						value={email}
+						onChangeText={setEmail}
+						onFocus={() => setFocusedInput('email')}
+						onBlur={() => setFocusedInput(null)}
+					/>
+				</View>
+			</View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+			{/* Password Input */}
+			<View style={styles.inputGroup}>
+				<Text style={styles.label}>Password</Text>
+				<View style={[styles.inputWrapper, focusedInput == 'password' && styles.inputFocused]}>
+					<MaterialCommunityIcons name="email-outline" size={20} color="#666" />
+					<TextInput
+						style={styles.input}
+						placeholder="Enter your password"
+						value={password}
+						onChangeText={setPassword}
+						secureTextEntry={true}
+						onFocus={() => setFocusedInput('password')}
+						onBlur={() => setFocusedInput(null)}
+					/>
+				</View>
+			</View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
+			{/* Sign In  */}
+			<Pressable style={styles.btn}>
+				<Text style={styles.btnText}>Sign In</Text>
+				<MaterialCommunityIcons name="arrow-right" size={20} color="#f4f4f4" />
+			</Pressable>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
+			{/* Social Login Options  */}
+			<View style={styles.socialGroup}>
+				<View style={styles.socialIconWrapper}>
+					<MaterialCommunityIcons name="facebook" size={20} color="#666" />
+				</View>
+
+				<View style={styles.socialIconWrapper}>
+					<MaterialCommunityIcons name="google" size={20} color="#666" />
+				</View>
+
+				<View style={styles.socialIconWrapper}>
+					<MaterialCommunityIcons name="instagram" size={20} color="#666" />
+				</View>
+			</View>
+
+			{/* Footer Links  */}
+			<View style={styles.footer}>
+				<View style={styles.singUpLinkContainer}>
+					<Text style={styles.footerText}>Don't have an account?</Text>
+					<TouchableOpacity>
+						<Text style={styles.footerLink}>Sign Up</Text>
+					</TouchableOpacity>
+				</View>
+
+				<TouchableOpacity style={styles.forgotContainer}>
+					<Text style={styles.footerLink}>Forgot Password?</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
+};
+
+export default SignIn;
