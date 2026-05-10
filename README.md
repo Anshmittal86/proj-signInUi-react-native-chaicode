@@ -53,7 +53,7 @@ git clone https://github.com/Anshmittal86/proj-signInUi-react-native-chaicode.gi
 Move into project folder:
 
 ```bash
-cd telecare-ai-app
+cd proj-signInUi-react-native-chaicode
 ```
 
 Install dependencies:
